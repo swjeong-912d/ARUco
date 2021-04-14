@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/x64/Debug/opencv_world452.dll
+/x64/Debug/opencv_world452d.dll
