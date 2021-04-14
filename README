@@ -1,8 +1,9 @@
-ARUco detector를 구현하는 프로젝트 입니다.
+### ARUco detector
 
-목적: ARUco의 fiducial marker를 검출하고, 3차원 좌표 생성하기
+## 목적
+ARUco의 fiducial marker를 검출하고, 3차원 좌표 생성하기
 
-방법: 
+## 방법 
 1. 주어진 마커 사진을 흑백 사진으로 변환한다. 
 2. 변환한 흑백사진을 adpative thresholding 기법으로 이진화 한다
 3. 이진화한 사진에서 contour를 계산한 뒤, 그중 사각형 모양만 선별하고, 그 코너점들을 저장한다.
