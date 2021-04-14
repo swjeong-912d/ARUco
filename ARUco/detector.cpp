@@ -57,33 +57,4 @@ int main(int argc, char* argv[]) {
 	vector<MarkerInfo> finalDetectedMarkers;
 	detector.detectMarkers(filename, finalDetectedMarkers, params);
 
-
-	//Mat camMatrix, distCoeffs;
-	//FileStorage fs("output.txt", FileStorage::READ);
-	//if (!fs.isOpened())
-	//	return false;
-	//fs["camera_matrix"] >> camMatrix;
-	//fs["distortion_coefficients"] >> distCoeffs;
-
-
-	//vector<cv::Point3f> markerLCS3D;
-	//markerLCS3D.push_back(cv::Point3f(-0.5f, 0.5f, 0));
-	//markerLCS3D.push_back(cv::Point3f(0.5f, 0.5f, 0));
-	//markerLCS3D.push_back(cv::Point3f(0.5f, -0.5f, 0));
-	//markerLCS3D.push_back(cv::Point3f(-0.5f, -0.5f, 0));
-
-
-	//for (const auto& markerInfo : finalDetectedMarkers)
-	//{
-	//	//카메라와 마커사이의 rotation 및 translation 벡터를 구함
-	//	Mat rotation_vector, translation_vector;
-	//	solvePnP(markerLCS3D, markerInfo.markerCorners, camMatrix, distCoeffs, rotation_vector, translation_vector);
-
-	//	cout << "rotation_vector" << endl << rotation_vector << endl;
-	//	cout << "translation_vector" << endl << translation_vector << endl;
-
-	//	//aruco 모듈에서 제공하는 함수를 이용하여 마커위에 좌표축을 그림
-	//	aruco::drawAxis(inputImage, camMatrix, distCoeffs, rotation_vector, translation_vector, 1.0);
-	//}
-
 }

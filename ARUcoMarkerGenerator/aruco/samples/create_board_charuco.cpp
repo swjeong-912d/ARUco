@@ -38,23 +38,23 @@ the use of this software, even if advised of the possibility of such damage.
 
 
 #include <opencv2/highgui.hpp>
-#include "opencv2/aruco.hpp"
+#include <opencv2/aruco/charuco.hpp>
 
 using namespace cv;
 
 namespace {
-const char* about = "Create an ArUco grid board image";
+const char* about = "Create a ChArUco board image";
 const char* keys  =
         "{@outfile |<none> | Output image }"
-        "{w        |       | Number of markers in X direction }"
-        "{h        |       | Number of markers in Y direction }"
-        "{l        |       | Marker side length (in pixels) }"
-        "{s        |       | Separation between two consecutive markers in the grid (in pixels)}"
+        "{w        |       | Number of squares in X direction }"
+        "{h        |       | Number of squares in Y direction }"
+        "{sl       |       | Square side length (in pixels) }"
+        "{ml       |       | Marker side length (in pixels) }"
         "{d        |       | dictionary: DICT_4X4_50=0, DICT_4X4_100=1, DICT_4X4_250=2,"
         "DICT_4X4_1000=3, DICT_5X5_50=4, DICT_5X5_100=5, DICT_5X5_250=6, DICT_5X5_1000=7, "
         "DICT_6X6_50=8, DICT_6X6_100=9, DICT_6X6_250=10, DICT_6X6_1000=11, DICT_7X7_50=12,"
         "DICT_7X7_100=13, DICT_7X7_250=14, DICT_7X7_1000=15, DICT_ARUCO_ORIGINAL = 16}"
-        "{m        |       | Margins size (in pixels). Default is marker separation (-s) }"
+        "{m        |       | Margins size (in pixels). Default is (squareLength-markerLength) }"
         "{bb       | 1     | Number of bits in marker borders }"
         "{si       | false | show generated image }";
 }
@@ -68,12 +68,12 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    int markersX = parser.get<int>("w");
-    int markersY = parser.get<int>("h");
-    int markerLength = parser.get<int>("l");
-    int markerSeparation = parser.get<int>("s");
+    int squaresX = parser.get<int>("w");
+    int squaresY = parser.get<int>("h");
+    int squareLength = parser.get<int>("sl");
+    int markerLength = parser.get<int>("ml");
     int dictionaryId = parser.get<int>("d");
-    int margins = markerSeparation;
+    int margins = squareLength - markerLength;
     if(parser.has("m")) {
         margins = parser.get<int>("m");
     }
@@ -88,16 +88,15 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    Size imageSize;
-    imageSize.width = markersX * (markerLength + markerSeparation) - markerSeparation + 2 * margins;
-    imageSize.height =
-        markersY * (markerLength + markerSeparation) - markerSeparation + 2 * margins;
-
     Ptr<aruco::Dictionary> dictionary =
         aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionaryId));
 
-    Ptr<aruco::GridBoard> board = aruco::GridBoard::create(markersX, markersY, float(markerLength),
-                                                      float(markerSeparation), dictionary);
+    Size imageSize;
+    imageSize.width = squaresX * squareLength + 2 * margins;
+    imageSize.height = squaresY * squareLength + 2 * margins;
+
+    Ptr<aruco::CharucoBoard> board = aruco::CharucoBoard::create(squaresX, squaresY, (float)squareLength,
+                                                            (float)markerLength, dictionary);
 
     // show created board
     Mat boardImage;

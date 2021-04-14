@@ -15,25 +15,23 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="detector.cpp">
+    <ClCompile Include="aruco\src\aruco.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="dictionary.cpp">
+    <ClCompile Include="aruco\src\charuco.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="MarkerDetector.cpp">
+    <ClCompile Include="aruco\src\dictionary.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="dictionary.hpp">
+    <ClCompile Include="aruco\src\apriltag_quad_thresh.cpp">
       <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MarkerDetector.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="predefined_dictionaries.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
+    </ClCompile>
+    <ClCompile Include="aruco\src\zmaxheap.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="aruco\samples\create_marker.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

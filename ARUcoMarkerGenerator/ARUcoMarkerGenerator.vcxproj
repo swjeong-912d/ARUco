@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{bf173fd8-ef07-47fc-bb9a-e3dba953f28d}</ProjectGuid>
-    <RootNamespace>ARUco</RootNamespace>
+    <ProjectGuid>{5150fbcd-708a-4456-99d0-9a88d523abd6}</ProjectGuid>
+    <RootNamespace>ARUcoMarkerGenerator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>.\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>.\opencv\build\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>.\aruco\include;..\ARUco\opencv\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ARUco\opencv\build\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -142,14 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="detector.cpp" />
-    <ClCompile Include="dictionary.cpp" />
-    <ClCompile Include="MarkerDetector.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="dictionary.hpp" />
-    <ClInclude Include="MarkerDetector.hpp" />
-    <ClInclude Include="predefined_dictionaries.hpp" />
+    <ClCompile Include="aruco\samples\create_marker.cpp" />
+    <ClCompile Include="aruco\src\apriltag_quad_thresh.cpp" />
+    <ClCompile Include="aruco\src\aruco.cpp" />
+    <ClCompile Include="aruco\src\charuco.cpp" />
+    <ClCompile Include="aruco\src\dictionary.cpp" />
+    <ClCompile Include="aruco\src\zmaxheap.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
