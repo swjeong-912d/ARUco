@@ -18,8 +18,13 @@ struct param {
 
 	int windowSize, maxPixelValue, C;
 
+	float eps; // DP approximation parameter eps
+
 	bool showImage;
 
+	bool verbal; // print intermediate process
+
+	float errorCorrectionRate;
 	param() {
 		borderBits = 1;
 		cellSize = 10;
@@ -30,16 +35,22 @@ struct param {
 		windowSize = 77;
 		C = 8;
 
+		eps = 0.05;
+
+		verbal = false;
+
+		errorCorrectionRate = 1.0f;
+
 		showImage = false;
 	}
 };
 struct MarkerInfo {
 	int markerId;
-	vector<Point2f> markerContours;
-	MarkerInfo(int markerId, const vector<Point2f>& markerContours)
+	vector<Point2f> markerCorners;
+	MarkerInfo(int markerId, const vector<Point2f>& markerCorners)
 	{
 		this->markerId = markerId;
-		this->markerContours = markerContours;
+		this->markerCorners = markerCorners;
 	}
 
 };

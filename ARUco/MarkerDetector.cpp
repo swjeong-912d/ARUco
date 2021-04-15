@@ -6,28 +6,58 @@ void MarkerDetector::setParameters(const param& params)
 }
 void MarkerDetector::detectMarkers(std::string filename, vector<MarkerInfo>& output, const param& params)
 {
-	// step 0. Load Image
+	// step 0. Load image
 	inputImage = imread(filename, IMREAD_COLOR);
+
+	if (params.verbal)
+		cout << "Load image succes" << endl;
+
+
 
 	// step 1. Convert to grey image
 	Mat greyInputImage;
 	cvtColor(inputImage, greyInputImage, COLOR_BGR2GRAY);
 
+	if (params.verbal)
+		cout << "Convert to grey image succes" << endl;
+
+
+
 	// step 2. Binarize grey image using adaptive threshold with Gaussian filter
 	adaptiveThreshold(greyInputImage, binaryImage,
 		params.maxPixelValue, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, params.windowSize, params.C);
 
+	if (params.verbal)
+		cout << "Binarization of grey image succes" << endl;
+
+
+
 	// step 3. Find contours of marker candidates obtained from contours of the binarized image
 	vector<vector<Point2f> > inputMarkerContours;
 	_findSquareContours(binaryImage, inputMarkerContours);
+
+	if (params.verbal)
+		cout << "Marker candidates detection success" << endl;
+
+
 
 	// step 4. Compute candidate bitmaps from contours
 	vector<Mat>			bitMatrices;
 	vector<vector<Point2f> > candidateMarkerContours;
 	_detectMarkerCandidates(inputMarkerContours, greyInputImage, bitMatrices, candidateMarkerContours);
 
+	if (params.verbal)
+		cout << "Bitmap extraction success" << endl;
+
+
+
 	// step 5. Identify candidates using dictionary
 	_identifyCandidates(bitMatrices, candidateMarkerContours, output);
+
+	if (params.verbal)
+		cout << "Marker identification success" << endl;
+
+
 }
 
 void MarkerDetector::_findSquareContours(InputArray binaryImage, ContourArray& inputMarkerContours)
@@ -50,8 +80,8 @@ void MarkerDetector::_findSquareContours(InputArray binaryImage, ContourArray& i
 	vector<Point2f> polyApprox;
 	for (const auto& contour : contours)
 	{
-		approxPolyDP(Mat(contour), polyApprox, arcLength(Mat(contour), true) * 0.05, true);
-		if (polyApprox.size() == 4) // Convex square contours
+		approxPolyDP(Mat(contour), polyApprox, arcLength(Mat(contour), true) * params.eps, true);
+		if (polyApprox.size() == 4  && isContourConvex(polyApprox)) // Square contours
 		{
 			squareContours.push_back(contour);
 			vector<cv::Point2f> cornerPoints;
@@ -60,7 +90,7 @@ void MarkerDetector::_findSquareContours(InputArray binaryImage, ContourArray& i
 
 			_arrangeContourPointsCCW(cornerPoints);
 			inputMarkerContours.push_back(cornerPoints);
-		}
+		}// TODO: Need to refine more
 	}
 	if (params.showImage)
 	{
@@ -97,7 +127,7 @@ void MarkerDetector::_detectMarkerCandidates(const ContourArray& inputMarkerCont
 	sampleMarkerContour.push_back(cv::Point2f(0, markerSampleSize - 1));
 
 
-	// step 4.2. compute bitmaps from marker candidates
+	// step 4.2. Compute bitmaps from marker candidates
 	for (const auto& inputMarkerContour : inputMarkerContours)
 	{
 		// step 4.2.1. Compute perspective transformation matrix and warp image
@@ -106,9 +136,11 @@ void MarkerDetector::_detectMarkerCandidates(const ContourArray& inputMarkerCont
 		warpPerspective(greyInputImage, warpedInputImage, PerspectiveTransformMatrix, Size(markerSampleSize, markerSampleSize));
 
 		// step 4.2.2. Binarize candidate images using Otsu's method (histogram based global threshold)
-		threshold(warpedInputImage, warpedInputImage, 125, 255, THRESH_BINARY | THRESH_OTSU);
+		threshold(warpedInputImage, warpedInputImage, 125, 255, THRESH_BINARY | THRESH_OTSU); 
+		// Threshold 125 will be disregarded in Otsu's method
 
-		// step 4.2.3. check wheather boundary contains white cell
+
+		// step 4.2.3. Vheck wheather boundary contains white cell
 		bool whiteBorderCellExist = false;
 		for (int x = 0; x < markerBitsWithBorder; x++)
 			for (int y = 0; y < markerBitsWithBorder; y++)
@@ -173,21 +205,25 @@ void MarkerDetector::_identifyCandidates(const vector<Mat>& bitMatrices, const C
 {
 	int rotation = -1;
 	int markerInputId = -1;
-	// step 5.1. identify bitmaps and insert only valid id into output
+	// step 5.1. Identify bitmaps and insert only valid id into output
 	for (int i = 0; i < candidateMarkerContours.size(); i++)
 	{
 		Mat bitMatrix = bitMatrices[i];
 		vector<Point2f> markerContour = candidateMarkerContours[i];
 
-		if (!_identify(bitMatrix, markerInputId, rotation, 1))
-			cout << "Marker not found" << endl;
-		else {
-
-			if (rotation != 0) {
-				// rearrange marker contours into pre-defined order
+		// step 5.1.1. Identfy wheather it is valid marker or not
+		if (!_identify(bitMatrix, markerInputId, rotation, params.errorCorrectionRate))
+		{
+			if (params.verbal)
+				cout << "Marker not found" << endl;
+		}
+		else 
+		{
+			if (rotation != 0) 
+			{
+				// step 5.1.2. Rearrange valid marker contours into pre-defined order
 				std::rotate(markerContour.begin(), markerContour.begin() + 4 - rotation, markerContour.end());
 			}
-			cout << "marker ID: " << markerInputId << endl;
 			finalDetectedMarkers.push_back(MarkerInfo(markerInputId, markerContour));
 		}
 	}
@@ -233,8 +269,11 @@ bool MarkerDetector::_identify(const Mat& onlyBits, int& idx, int& rotation, flo
 		if (MinDistance <= maxCorrectionRecalculed)
 			break;
 	}
-
-	return idx != -1;
+	// If MinDistance is less then maximum tolerable error, return true. Else return false.
+	if(MinDistance <= maxCorrectionRecalculed) 	
+		return true;
+	else
+		return false;
 }
 Mat MarkerDetector::_getByteListFromBits(const Mat& bits) {
 	
