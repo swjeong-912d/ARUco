@@ -174,17 +174,17 @@ struct CV_EXPORTS_W DetectorParameters {
     CV_PROP_RW double minOtsuStdDev;
     CV_PROP_RW double errorCorrectionRate;
 
-    // April :: User-configurable parameters.
-    CV_PROP_RW float aprilTagQuadDecimate;
-    CV_PROP_RW float aprilTagQuadSigma;
+    //// April :: User-configurable parameters.
+    //CV_PROP_RW float aprilTagQuadDecimate;
+    //CV_PROP_RW float aprilTagQuadSigma;
 
-    // April :: Internal variables
-    CV_PROP_RW int aprilTagMinClusterPixels;
-    CV_PROP_RW int aprilTagMaxNmaxima;
-    CV_PROP_RW float aprilTagCriticalRad;
-    CV_PROP_RW float aprilTagMaxLineFitMse;
-    CV_PROP_RW int aprilTagMinWhiteBlackDiff;
-    CV_PROP_RW int aprilTagDeglitch;
+    //// April :: Internal variables
+    //CV_PROP_RW int aprilTagMinClusterPixels;
+    //CV_PROP_RW int aprilTagMaxNmaxima;
+    //CV_PROP_RW float aprilTagCriticalRad;
+    //CV_PROP_RW float aprilTagMaxLineFitMse;
+    //CV_PROP_RW int aprilTagMinWhiteBlackDiff;
+    //CV_PROP_RW int aprilTagDeglitch;
 
     // to detect white (inverted) markers
     CV_PROP_RW bool detectInvertedMarker;
