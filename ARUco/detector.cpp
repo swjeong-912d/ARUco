@@ -3,6 +3,7 @@
 #include "dictionary.hpp"
 #include "MarkerDetector.hpp"
 #include <vector>
+#include <sstream>
 using namespace cv;
 
 
@@ -18,13 +19,9 @@ namespace {
 		"DICT_4X4_1000=3, DICT_5X5_50=4, DICT_5X5_100=5, DICT_5X5_250=6, DICT_5X5_1000=7, "
 		"DICT_6X6_50=8, DICT_6X6_100=9, DICT_6X6_250=10, DICT_6X6_1000=11, DICT_7X7_50=12,"
 		"DICT_7X7_100=13, DICT_7X7_250=14, DICT_7X7_1000=15, DICT_ARUCO_ORIGINAL = 16}"
-		"{id       |       | Marker id in the dictionary }"
+		"{cam      |       | camera parameter filename }"
 		"{bb       | 1     | Number of bits in marker borders }"
 		"{si       | false | show generated image }";
-}
-void drawAxis(Mat& inputImage, InputArray _cameraMatrix, InputArray _distCoeffs, InputArray _rvec, InputArray _tvec, float length)
-{
-	drawFrameAxes(inputImage, _cameraMatrix, _distCoeffs, _rvec, _tvec, length, 3);
 }
 
 
@@ -39,12 +36,10 @@ int main(int argc, char* argv[]) {
 	MarkerDetector detector;
 
 	String filename = parser.get<String>("name");
+	String camParams = parser.get<String>("cam");
 	int dictionaryId = parser.get<int>("d");
-	int markerId   = parser.get<int>("id");
 	int borderBits = parser.get<int>("bb");
 	bool showImage = parser.get<bool>("si");
-
-	String out = parser.get<String>(0);
 
 	if (!parser.check()) {
 		parser.printErrors();
@@ -64,7 +59,7 @@ int main(int argc, char* argv[]) {
 
 
 	Mat camMatrix, distCoeffs;
-	FileStorage fs("output.yml", FileStorage::READ);
+	FileStorage fs(camParams, FileStorage::READ);
 	if (!fs.isOpened())
 		return false;
 	fs["camera_matrix"] >> camMatrix;
@@ -80,19 +75,27 @@ int main(int argc, char* argv[]) {
 
 	Mat InputImage;
 	detector.getInputImage(InputImage);
-	for (const auto& markers : finalDetectedMarkers)
+	for (const auto& marker : finalDetectedMarkers)
 	{
-		if (markers.markerId > 100) continue;
-		//카메라와 마커사이의 rotation 및 translation 벡터를 구함
+		//Compute translation and rotation vectors
 		Mat rotation_vector, translation_vector;
-		solvePnP(markerCorners3d, markers.markerContours, camMatrix, distCoeffs, rotation_vector, translation_vector);
+		solvePnP(markerCorners3d, marker.markerContours, camMatrix, distCoeffs, rotation_vector, translation_vector);
 
-		cout << "markerID " << markers.markerId << endl;
+		cout << "markerID " << marker.markerId << endl;
 		cout << "rotation_vector" << endl << rotation_vector << endl;
 		cout << "translation_vector" << endl << translation_vector << endl;
 
-		//aruco 모듈에서 제공하는 함수를 이용하여 마커위에 좌표축을 그림
-		drawAxis(InputImage,camMatrix, distCoeffs, rotation_vector, translation_vector, 1.0);
+		//draw Axis
+		drawFrameAxes(InputImage, camMatrix, distCoeffs, rotation_vector, translation_vector, 0.8, 4);
+
+		Point2f center(0, 0);
+		for (const auto& corner : marker.markerContours)
+			center += corner / 4.0f;
+		std::stringstream s;
+		s << "id=" << marker.markerId;
+		putText(InputImage, s.str(), center, FONT_HERSHEY_SIMPLEX, 0.5,
+			cv::Scalar(0,152, 243), 2);
+
 	}
 	
 	imshow("Axis Image", InputImage);

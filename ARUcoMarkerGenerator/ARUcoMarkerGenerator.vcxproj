@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Library\aruco\samples\create_marker.cpp" />
+    <ClCompile Include="..\Library\aruco\samples\create_board_charuco.cpp" />
     <ClCompile Include="..\Library\aruco\src\aruco.cpp" />
     <ClCompile Include="..\Library\aruco\src\charuco.cpp" />
     <ClCompile Include="..\Library\aruco\src\dictionary.cpp" />
