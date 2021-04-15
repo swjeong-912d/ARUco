@@ -18,6 +18,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Library\aruco\samples\create_board_charuco.cpp" />
+    <ClCompile Include="..\Library\aruco\src\aruco.cpp" />
+    <ClCompile Include="..\Library\aruco\src\charuco.cpp" />
+    <ClCompile Include="..\Library\aruco\src\dictionary.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -78,8 +84,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>.\aruco\include;..\ARUco\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ARUco\opencv\build\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Library\aruco\include;..\Library\opencv\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\Library\opencv\build\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -141,14 +147,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="aruco\samples\create_marker.cpp" />
-    <ClCompile Include="aruco\src\apriltag_quad_thresh.cpp" />
-    <ClCompile Include="aruco\src\aruco.cpp" />
-    <ClCompile Include="aruco\src\charuco.cpp" />
-    <ClCompile Include="aruco\src\dictionary.cpp" />
-    <ClCompile Include="aruco\src\zmaxheap.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
