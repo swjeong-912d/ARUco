@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{bf173fd8-ef07-47fc-bb9a-e3dba953f28d}</ProjectGuid>
+    <ProjectGuid>{D9714A22-CC12-40B8-A67A-B4018CD45BF7}</ProjectGuid>
     <RootNamespace>MyARUcoDetector</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

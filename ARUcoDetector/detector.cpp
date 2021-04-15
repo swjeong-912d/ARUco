@@ -7,7 +7,7 @@
 using namespace cv;
 
 
-// wait time constant.
+// wait time constant. 0 for infinity
 const int WAIT_TIME = 0;
 
 namespace {
@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 	CommandLineParser parser(argc, argv, keys);
 	parser.about(about);
 
-	if (argc < 4) {
+	if (argc < 5) {
 		parser.printMessage();
 		return 0;
 	}
@@ -37,30 +37,46 @@ int main(int argc, char* argv[]) {
 
 	String filename = parser.get<String>("name");
 	String camParams = parser.get<String>("cam");
+	String detectionParams = parser.get<String>("param");
 	int dictionaryId = parser.get<int>("d");
 	bool showImage = parser.get<bool>("si");
-
+	bool verbal = parser.get<bool>("verb");
+	String outFilename = parser.get<String>(0);
 	if (!parser.check()) {
 		parser.printErrors();
 		return 0;
 	}
 
 
+	// Parameter setting
+	FileStorage fs_param(detectionParams, FileStorage::READ);
+	if (!fs_param.isOpened())
+		return false;
 	param params;
+	fs_param["adaptiveThresC"] >> params.adaptiveThresC;
+	fs_param["adaptiveThresWindowSize"] >> params.adaptiveThresWindowSize;
+	fs_param["borderBits"] >> params.borderBits;
+	fs_param["cellSize"] >> params.cellSize;
+	fs_param["errorCorrectionRate"] >> params.errorCorrectionRate;
+	fs_param["polyApproxAccuracyRate"] >> params.polyApproxAccuracyRate;
+	fs_param.release();
 	params.showImage = showImage;
 	params.dictionaryId = dictionaryId;
+	params.verbal = verbal;
 	detector.setParameters(params);
+
+
 	vector<MarkerInfo> finalDetectedMarkers;
 	detector.detectMarkers(filename, finalDetectedMarkers, params);
 
 
-
 	Mat camMatrix, distCoeffs;
-	FileStorage fs(camParams, FileStorage::READ);
-	if (!fs.isOpened())
+	FileStorage fs_cam(camParams, FileStorage::READ);
+	if (!fs_cam.isOpened())
 		return false;
-	fs["camera_matrix"] >> camMatrix;
-	fs["distortion_coefficients"] >> distCoeffs;
+	fs_cam["camera_matrix"] >> camMatrix;
+	fs_cam["distortion_coefficients"] >> distCoeffs;
+	fs_cam.release();
 
 
 	vector<cv::Point3f> markerCorners3d;
@@ -77,10 +93,12 @@ int main(int argc, char* argv[]) {
 		//Compute translation and rotation vectors
 		Mat rotation_vector, translation_vector;
 		solvePnP(markerCorners3d, marker.markerCorners, camMatrix, distCoeffs, rotation_vector, translation_vector);
-
-		cout << "markerID " << marker.markerId << endl;
-		cout << "rotation_vector" << endl << rotation_vector << endl;
-		cout << "translation_vector" << endl << translation_vector << endl;
+		if (params.verbal)
+		{
+			cout << "markerID " << marker.markerId << endl;
+			cout << "rotation_vector" << endl << rotation_vector << endl;
+			cout << "translation_vector" << endl << translation_vector << endl;
+		}
 
 		drawFrameAxes(OutputImage, camMatrix, distCoeffs, rotation_vector, translation_vector, 0.8, 4);
 
@@ -98,8 +116,11 @@ int main(int argc, char* argv[]) {
 
 	}
 	
-	imshow("Axis Image", OutputImage);
-	waitKey(WAIT_TIME);
-	imwrite("detection_result.png", OutputImage);
+	if (params.showImage)
+	{
+		imshow("Axis Image", OutputImage);
+		waitKey(WAIT_TIME);
+	}
+	imwrite(outFilename, OutputImage);
 
 }

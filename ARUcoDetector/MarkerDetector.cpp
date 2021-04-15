@@ -25,7 +25,7 @@ void MarkerDetector::detectMarkers(std::string filename, vector<MarkerInfo>& out
 
 	// step 2. Binarize grey image using adaptive threshold with Gaussian filter
 	adaptiveThreshold(greyInputImage, binaryImage,
-		params.maxPixelValue, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, params.windowSize, params.C);
+		255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, params.adaptiveThresWindowSize, params.adaptiveThresC);
 
 	if (params.verbal)
 		cout << "Binarization of grey image succes" << endl;
@@ -80,7 +80,7 @@ void MarkerDetector::_findSquareContours(InputArray binaryImage, ContourArray& i
 	vector<Point2f> polyApprox;
 	for (const auto& contour : contours)
 	{
-		approxPolyDP(Mat(contour), polyApprox, arcLength(Mat(contour), true) * params.eps, true);
+		approxPolyDP(Mat(contour), polyApprox, arcLength(Mat(contour), true) * params.polyApproxAccuracyRate, true);
 		if (polyApprox.size() == 4  && isContourConvex(polyApprox)) // Square contours
 		{
 			squareContours.push_back(contour);
