@@ -18,13 +18,10 @@
     <ClCompile Include="..\Library\aruco\src\aruco.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\Library\aruco\src\charuco.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="..\Library\aruco\src\dictionary.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\Library\aruco\samples\create_board_charuco.cpp">
+    <ClCompile Include="..\Library\aruco\samples\create_marker.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

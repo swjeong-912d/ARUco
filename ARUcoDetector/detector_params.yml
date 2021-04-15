@@ -1,0 +1,8 @@
+%YAML:1.0
+cellSize: 10
+borderBits: 1
+adaptiveThresWindowSize: 77
+adaptiveThresC: 8
+adaptiveThresMaxPixelValue: 255
+polyApproxAccuracyRate: 0.05
+errorCorrectionRate: 0.6

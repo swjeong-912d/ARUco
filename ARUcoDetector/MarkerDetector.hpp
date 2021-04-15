@@ -16,9 +16,9 @@ struct param {
 
 	int borderBits, cellSize, dictionaryId;
 
-	int windowSize, maxPixelValue, C;
+	int adaptiveThresWindowSize, adaptiveThresC;
 
-	float eps; // DP approximation parameter eps
+	float polyApproxAccuracyRate; // DP approximation parameter eps
 
 	bool showImage;
 
@@ -30,12 +30,11 @@ struct param {
 		cellSize = 10;
 		dictionaryId = 10;
 
-		maxPixelValue = 255;
 		// Must be odd value
-		windowSize = 77;
-		C = 8;
+		adaptiveThresWindowSize = 77;
+		adaptiveThresC = 8;
 
-		eps = 0.05;
+		polyApproxAccuracyRate = 0.05;
 
 		verbal = false;
 
