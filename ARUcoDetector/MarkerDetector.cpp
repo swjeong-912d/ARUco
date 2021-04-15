@@ -169,23 +169,6 @@ void MarkerDetector::_detectMarkerCandidates(const ContourArray& inputMarkerCont
 			candidateMarkerContours.push_back(inputMarkerContour);
 		}
 	}
-
-	if (params.showImage)
-	{
-		vector<vector<Point> > squareContours;
-		for (const auto& contour : candidateMarkerContours)
-		{
-			vector<Point> contour_;	
-			for (const auto& point : contour)
-				contour_.push_back(Point(point.x, point.y));
-			squareContours.push_back(contour_);
-		}
-		Mat binaryImageC3;
-		cvtColor(binaryImage, binaryImageC3, COLOR_GRAY2BGR, 0);
-		drawContours(binaryImageC3, squareContours, -1, Scalar(0, 0, 255), 2);
-		imshow("Original contour image", binaryImageC3);
-		waitKey(WAIT_TIME);
-	}
 }
 inline bool MarkerDetector::_isBorder(int x, int y, int BorderBits, int markerBitsWithBorder)
 {
@@ -228,6 +211,22 @@ void MarkerDetector::_identifyCandidates(const vector<Mat>& bitMatrices, const C
 		}
 	}
 	output = finalDetectedMarkers;
+	if (params.showImage)
+	{
+		vector<vector<Point> > markerContours;
+		for (const auto& marker : finalDetectedMarkers)
+		{
+			vector<Point> contour_;
+			for (const auto& point : marker.markerCorners)
+				contour_.push_back(Point(point.x, point.y));
+			markerContours.push_back(contour_);
+		}
+		Mat binaryImageC3;
+		cvtColor(binaryImage, binaryImageC3, COLOR_GRAY2BGR, 0);
+		drawContours(binaryImageC3, markerContours, -1, Scalar(0, 0, 255), 2);
+		imshow("Detected markers", binaryImageC3);
+		waitKey(WAIT_TIME);
+	}
 
 }
 bool MarkerDetector::_identify(const Mat& onlyBits, int& idx, int& rotation, float maxCorrectionRate) 
