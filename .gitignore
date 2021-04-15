@@ -363,3 +363,12 @@ MigrationBackup/
 FodyWeavers.xsd
 /x64/Debug/opencv_world452.dll
 /x64/Debug/opencv_world452d.dll
+/CharucoBoardGenerator/board_d14.png
+/CharucoBoardGenerator/board_checker.png
+/CharucoBoardGenerator/board_d2.png
+/CharucoBoardGenerator/board_d6.png
+/ARUcoMarkerGenerator/*.png
+/ARUcoCalibrator/*.mp4
+/ARUcoCalibrator/*.mp4
+/ARUcoCalibrator/*.mp4
+/ARUcoCalibrator/*.yml
