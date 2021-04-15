@@ -27,7 +27,7 @@ ARUco의 기준 마커(Fiducial marker)를 검출하고, 3차원 좌표계와 �
 
 ## 프로젝트 구성
 detector, calibrator, marker generator, 그리고 board generator 로 구성되어 있습니다. 직접 구현한 것은 detector 뿐이고, calibrator와 두 generator들은 라이브러리와 샘플 코드를 활용했습니다.
-1. ""MyARUcoDetector""   : 직접 구현한 ARUco Marker detector 프로젝트 입니다. openCV 4.5.2 라이브러리가 필요합니다.
+1. **MyARUcoDetector**   : 직접 구현한 ARUco Marker detector 프로젝트 입니다. openCV 4.5.2 라이브러리가 필요합니다.
 2. ARUcoCalibrator       : 카메라 캘리브레이션에 필요한 calibrator를 위한 프로젝트 입니다. 체커보드에 ARUco 마커를 합성한 Charuco board로 캘리브레이션을 하고, ARUco 와 openCV 4.5.2 라이브러리가 필요합니다.
 3. ARUcoMarkerGenerator  : ARUco detection에 필요한 fiducial marekr와 프로젝트 입니다. ARUco 와 openCV 4.5.2 라이브러리가 필요합니다.
 4. CharucoBoardGenerator : calibration에 필요한 Charuco를 생성하는 프로젝트 입니다.  ARUco 와 openCV 4.5.2 라이브러리가 필요합니다.
