@@ -4,4 +4,8 @@
     <LocalDebuggerCommandArguments>-d=14 --sl=200 --ml=150 --h=7 --w=5 -si=true --bb=1 board_checker.png --m=50</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommandArguments>-d=14 --sl=200 --ml=150 --h=7 --w=5 -si=true --bb=1 board_checker.png --m=50</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

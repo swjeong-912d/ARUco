@@ -4,4 +4,8 @@
     <LocalDebuggerCommandArguments>--name=./pictures/m6_curve.jpg --si=true --verb=false --cam=cam_param.yml --d=10 detection_result.png --param=detector_params.yml</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommandArguments>--name=./pictures/m6_curve.jpg --si=true --verb=false --cam=cam_param.yml --d=10 detection_result.png --param=detector_params.yml</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>
