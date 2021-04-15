@@ -67,6 +67,7 @@ class MarkerDetector
 public:
 	void detectMarkers(std::string filename, vector<MarkerInfo>& output, const param& params);
 	void setParameters(const param& params);
+	void getInputImage(Mat& output);
 };
 
 #endif

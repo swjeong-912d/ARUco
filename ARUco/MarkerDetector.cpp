@@ -265,3 +265,9 @@ Mat MarkerDetector::_getByteListFromBits(const Mat& bits) {
 	}
 	return candidateByteList;
 }
+
+
+void MarkerDetector::getInputImage(Mat& output)
+{
+	output = inputImage.clone();
+}
