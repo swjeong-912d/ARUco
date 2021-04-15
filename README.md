@@ -31,3 +31,14 @@ detector, calibrator, marker generator, 그리고 board generator 로 구성되�
 2. ARUcoCalibrator       : 카메라 캘리브레이션에 필요한 calibrator를 위한 프로젝트 입니다. 체커보드에 ARUco 마커를 합성한 Charuco board로 캘리브레이션을 하고, ARUco 와 openCV 4.5.2 라이브러리가 필요합니다.
 3. ARUcoMarkerGenerator  : ARUco detection에 필요한 fiducial marekr와 프로젝트 입니다. ARUco 와 openCV 4.5.2 라이브러리가 필요합니다.
 4. CharucoBoardGenerator : calibration에 필요한 Charuco를 생성하는 프로젝트 입니다.  ARUco 와 openCV 4.5.2 라이브러리가 필요합니다.
+
+
+## 실행방법
+Git 주소를 받아 설치 후, dll 파일을 압축 해제 해야 합니다.
+ARUCo/x64/Debug 폴더에서 opencv_videoio_ffmpeg452_64.zip과  opencv_world452d.zip 을 압축 해제하여 dll 파일을 해당 폴더에 추가합니다.  
+ARUCo/x64/Release 폴더에서 opencv_videoio_ffmpeg452_64.zip과  opencv_world452.zip 을 압축 해제하여 dll 파일을 해당 폴더에 추가합니다.  
+
+이후 Visual studio에서 솔루션을 실행하여, MyMarkerDetector를 컴파일 및 실행하면 됩니다.  
+이프로젝트는 windows 10 64bit 에서 Visual studio 2019 communitiy edition 을 이용해 작성하였습니다.  
+
+모든 프로젝트에는 샘플 파라미터가 들어가 있으므로, 바로 실행하면 됩니다.
