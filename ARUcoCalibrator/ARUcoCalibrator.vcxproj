@@ -145,7 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Library\aruco\samples\calibrate_camera.cpp" />
+    <ClCompile Include="..\Library\aruco\samples\calibrate_camera_charuco.cpp" />
     <ClCompile Include="..\Library\aruco\src\aruco.cpp" />
     <ClCompile Include="..\Library\aruco\src\charuco.cpp" />
     <ClCompile Include="..\Library\aruco\src\dictionary.cpp" />

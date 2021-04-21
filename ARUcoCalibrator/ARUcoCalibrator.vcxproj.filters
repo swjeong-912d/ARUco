@@ -24,7 +24,7 @@
     <ClCompile Include="..\Library\aruco\src\dictionary.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\Library\aruco\samples\calibrate_camera.cpp">
+    <ClCompile Include="..\Library\aruco\samples\calibrate_camera_charuco.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
