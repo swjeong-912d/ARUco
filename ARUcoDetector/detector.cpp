@@ -22,6 +22,8 @@ namespace {
 		"{param    |       | marker detection parameter filename }"
 		"{cam      |       | camera parameter filename }"
 		"{si       | false | show generated image }"
+		"{ml       | 0.035 | marker size }"
+		"{al       | 1     | axis size (relative to ml) }"
 		"{verb     | false | print pipeline completion message }";
 }
 
@@ -39,6 +41,8 @@ int main(int argc, char* argv[]) {
 	String camParams = parser.get<String>("cam");
 	String detectionParams = parser.get<String>("param");
 	int dictionaryId = parser.get<int>("d");
+	float markerSize = parser.get<float>("ml");
+	float axisSize = parser.get<float>("al");
 	bool showImage = parser.get<bool>("si");
 	bool verbal = parser.get<bool>("verb");
 	String outFilename = parser.get<String>(0);
@@ -80,10 +84,10 @@ int main(int argc, char* argv[]) {
 
 
 	vector<cv::Point3f> markerCorners3d;
-	markerCorners3d.push_back(cv::Point3f(-0.5f, 0.5f, 0));
-	markerCorners3d.push_back(cv::Point3f(0.5f, 0.5f, 0));
-	markerCorners3d.push_back(cv::Point3f(0.5f, -0.5f, 0));
-	markerCorners3d.push_back(cv::Point3f(-0.5f, -0.5f, 0));
+	markerCorners3d.push_back(cv::Point3f(markerSize, markerSize, 0));
+	markerCorners3d.push_back(cv::Point3f(-markerSize, markerSize, 0));
+	markerCorners3d.push_back(cv::Point3f(-markerSize, -markerSize, 0));
+	markerCorners3d.push_back(cv::Point3f(markerSize, -markerSize, 0));
 
 
 	Mat OutputImage;
@@ -100,7 +104,7 @@ int main(int argc, char* argv[]) {
 			cout << "translation_vector" << endl << translation_vector << endl;
 		}
 
-		drawFrameAxes(OutputImage, camMatrix, distCoeffs, rotation_vector, translation_vector, 0.8, 4);
+		drawFrameAxes(OutputImage, camMatrix, distCoeffs, rotation_vector, translation_vector, markerSize* axisSize, 4);
 
 
 		// Find Id display position using projection matrix
