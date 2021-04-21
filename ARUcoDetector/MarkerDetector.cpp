@@ -97,7 +97,7 @@ void MarkerDetector::_findSquareContours(InputArray binaryImage, ContourArray& i
 		Mat binaryImageC3;
 		cvtColor(binaryImage, binaryImageC3, COLOR_GRAY2BGR, 0);
 		drawContours(binaryImageC3, squareContours, -1, Scalar(0, 0, 255), 2);
-		imshow("Simplified contour image", binaryImageC3);
+		imshow("Selected convex cour-corner contour image", binaryImageC3);
 		waitKey(WAIT_TIME);
 	}
 }
